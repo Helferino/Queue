@@ -1,5 +1,36 @@
 {
   "commands": {
+    "fake": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/Fake",
+      "commandName": "fake",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": [
+        {
+          "name": "count",
+          "propertyName": "count",
+          "type": "number",
+          "description": "Number of tickets"
+        }
+      ]
+    },
+    "work": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": true
+      },
+      "commandPath": "./commands/Work",
+      "commandName": "work",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",

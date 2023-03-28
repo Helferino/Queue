@@ -23,4 +23,9 @@ export default Env.rules({
   SESSION_DRIVER: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
+
+  STATIONS_COUNT: Env.schema.number.optional(),
+  STATIONS_QUEUE_LIMIT: Env.schema.number.optional(),
+  STATIONS_BASE_DURATION: Env.schema.number.optional(),
+  STATIONS_OFFSET_DURATION: Env.schema.number.optional(),
 })
