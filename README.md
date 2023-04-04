@@ -19,9 +19,6 @@ __Install required dependencies:__
 ```bash
 # Install project dependencies
 npm install
-
-# Install Adonis as global package (REQUIRED)
-npm install adonis -g
 ```
 
 __Start dev server:__
@@ -32,7 +29,7 @@ npm run dev
 __Start worker:__
 
 ```bash
-adonis work
+node ace work
 ```
 
 ### Usage
@@ -44,7 +41,7 @@ adonis work
 
 __Others:__
 
-- You can make fake request with command `adonis fake --number 10`
+- You can make fake request with command `node ace fake --number 10`
 - Show basic stats of stations `localhost:3333/stats`
 
 ### Potential improvements
