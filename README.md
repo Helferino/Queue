@@ -1,41 +1,56 @@
 ## Queue system
 
+Simple queue system for creating tickets and processing them on server-side. Users can submit their ticket that will be enqueued to least full station. After some time user will recieve notification when their ticket is completed.
 
-### Setup
+### Tech-stack
 
-Vytvorenie v roote appky `.env` suboru podla `.env.example` predlohy.
+- Adonis.js 5 (Node.js framework)
+- Redis as database
+- Websocket for real-time notification
 
-Naistalovanie potrebnych dependencies:
-```
+### Setup (Dev server only)
+
+__Environment:__
+
+Create `.env` file according to `.env.example` template inside root of project.
+
+__Install required dependencies:__
+
+```bash
+# Install project dependencies
 npm install
+
+# Install Adonis as global package (REQUIRED)
+npm install adonis -g
 ```
 
-Spustenie appky v dev prostredi:
-```
+__Start dev server:__
+```bash
 npm run dev
 ```
 
-Spustit work scriptu ktory kazdu chvilu checkuje a spracuje tickety z redisu. Vsetky potrebne informacie o spracovani budu vypisane v tomto procese:
-```
+__Start worker:__
+
+```bash
 adonis work
 ```
 
-### Funkcnost
+### Usage
 
-- Otvorenie FE rozhrania na `localhost:3333`
-- Vlozenie validneho emailu (Backend validacia)
-- Zmacknutie Submit button ktory zaradi Vas ticket do stsanice s najmensim poctom ticketov
-- Po vyhodnoteni (5-15s) ticketu pride cez websocket notifikacia o uspesnom spracovani ticketu
+1. Open ticket form `localhost:3333`
+2. Enter valid email
+3. Submit form
+4. After some time you will recieve notification about your task
 
-Ostatne:
+__Others:__
 
-- Je tu moznost vytvorit fake requesty na nove tickety cez prikaz `adonis fake --number 10`
-- Monitoring vyuzitia je mozny cez `localhost:3333/stats`
-- Je mozne menit hodnoty cez `.env` hodnoty (pozri `.env.example`)
+- You can make fake request with command `adonis fake --number 10`
+- Show basic stats of stations `localhost:3333/stats`
 
-## Zlepsenia
+### Potential improvements
 
-- Aktualne to je single thread, cize kazda station je v rovnakom procese co moze byt pri velkych cislach pomale. V buducnosti by sa to mohlo automaticky clustrovat a vytvarat nove stations, procesy podla potreby a fungovlali by nezavysle len na redise.
-- Tranzakcie pri redis operaciach
-- Dockerizacia
-- Unit testy
+- Automatically open/close station instances based on user needs
+- Implement transactions for safe data manipulation
+- Docker 🐳
+- Tests
+- Better UI (Template, Notifications, Form validation)

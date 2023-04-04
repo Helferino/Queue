@@ -4,37 +4,27 @@ import Redis from '@ioc:Adonis/Addons/Redis'
 import Config from '@ioc:Adonis/Core/Config'
 
 export default class Work extends BaseCommand {
-  /**
-   * Command name is used to run the command
-   */
   public static commandName = 'work'
 
-  /**
-   * Command description is displayed in the "help" output
-   */
   public static description = ''
 
   public static settings = {
-    /**
-     * Set the following value to true, if you want to load the application
-     * before running the command. Don't forget to call `node ace generate:manifest`
-     * afterwards.
-     */
     loadApp: true,
-
-    /**
-     * Set the following value to true, if you want this command to keep running until
-     * you manually decide to exit the process. Don't forget to call
-     * `node ace generate:manifest` afterwards.
-     */
     stayAlive: true,
   }
 
   public async run() {
+    const config = Config.get('station')
     const inProgress: Record<string, boolean> = {}
 
     setInterval(async () => {
+      // Find ALL stations that have ATLEAST one ticket in queue
       const stations = await Redis.zrangebyscore('stations', 0.1, '+inf')
+
+      if (stations.length === 0) {
+        this.logger.log('Station check - No tickets to process')
+        return
+      }
 
       this.logger.debug(`Station check - ${stations.length} stations working`)
 
@@ -44,6 +34,7 @@ export default class Work extends BaseCommand {
           return
         }
 
+        // Remove ticket from queue
         const ticketData = await Redis.lpop(`stations:${stationId}`)
 
         // No ticket to process
@@ -51,16 +42,22 @@ export default class Work extends BaseCommand {
           return
         }
 
+        // Flag this station as "inProgress"
         inProgress[stationId] = true
 
+        // Decrease total tickets count in this station
+        // NOTE: This is unsafe and it can be synchronized wrongly, better approach would be making independent service for sync
         await Redis.zincrby('stations', -1, stationId)
 
         // Work simulation
-        const duration = 10 + randomInt(-5, 5)
+        const offset = randomInt(-config.offsetDuration, config.offsetDuration)
+        const duration = config.baseDuration + offset
 
         setTimeout(async () => {
+          // Mark station as NOT "inProgress"
           inProgress[stationId] = false
 
+          // Trigger event for finished ticket
           Redis.publish('ticket:ready', ticketData)
 
           this.logger.success('Completed ticket - ' + ticketData)
@@ -68,6 +65,6 @@ export default class Work extends BaseCommand {
 
         this.logger.info('Processing ticket - ' + ticketData)
       })
-    }, Config.get('station').checkDuration)
+    }, config.checkDuration)
   }
 }

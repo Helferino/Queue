@@ -10,4 +10,10 @@ export default class TicketsController {
 
     response.json(data)
   }
+
+  public async stats({ view }: HttpContextContract) {
+    const payload = await TicketService.getStats()
+
+    return view.render('stats', payload)
+  }
 }

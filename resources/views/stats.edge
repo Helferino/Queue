@@ -27,7 +27,7 @@
       <div>
         @each((station, index) in stations)
           <div>
-            {{ index + 1}}. <b>{{ station.id }}</b> - {{ station.inQueue }} / {{ station.free }} ({{ station.usage }}%)
+            {{ index + 1}}. <b>{{ station.id }}</b> - {{ station.inQueue }} / {{ station.total }} ({{ station.usage }}%)
           </div>
         @end
       </div>

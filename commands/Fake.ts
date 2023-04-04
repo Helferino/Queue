@@ -41,7 +41,7 @@ export default class Fake extends BaseCommand {
           payload: i,
         })
 
-        this.logger.success(`Ticket added to queue - ${positionInQueue}`)
+        this.logger.success(`Ticket added to queue - ${JSON.stringify(positionInQueue)}`)
       }
     } catch (e) {
       this.logger.error(e.message)
