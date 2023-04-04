@@ -10,11 +10,7 @@ Simple queue system for creating tickets and processing them on server-side. Use
 
 ### Setup (Dev server only)
 
-__Environment:__
-
 Create `.env` file according to `.env.example` template inside root of project.
-
-__Install dependencies and run project:__
 
 ```bash
 # Install project dependencies
@@ -29,7 +25,7 @@ node ace work
 
 ### Usage
 
-1. Open ticket form `localhost:3333`
+1. Open ticket form on `localhost:3333`
 2. Enter valid email
 3. Submit form
 4. After some time you will recieve notification about your task
