@@ -14,21 +14,16 @@ __Environment:__
 
 Create `.env` file according to `.env.example` template inside root of project.
 
-__Install required dependencies:__
+__Install dependencies and run project:__
 
 ```bash
 # Install project dependencies
 npm install
-```
 
-__Start dev server:__
-```bash
+# Start dev server
 npm run dev
-```
 
-__Start worker:__
-
-```bash
+# Start worker in next terminal
 node ace work
 ```
 
